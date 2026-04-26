@@ -1,0 +1,134 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.lobby .players {
+  text-align: left;
+  max-width: 320px;
+  margin: 1rem auto;
+}
+.lobby .players ul {
+  list-style: none;
+  padding: 0;
+}
+.lobby .players li {
+  padding: 0.25rem 0;
+}
+.copy-btn {
+  margin-left: 0.5rem;
+  font-size: 0.85rem;
+}
+.kick-btn {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Small indicator next to a seat that is away / disconnected (server presence) */
+.player-presence-away {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-left: 0.35rem;
+  border-radius: 50%;
+  background: #d4a017;
+  vertical-align: middle;
+  box-shadow: 0 0 0 2px rgba(212, 160, 23, 0.35);
+}
+@media (prefers-color-scheme: light) {
+  .player-presence-away {
+    background: #b8860b;
+    box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.3);
+  }
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.game-page .players-roster {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem auto 0;
+  max-width: 320px;
+  text-align: left;
+}
+.game-page .players-roster li {
+  padding: 0.2rem 0;
+}
+
+.game-table {
+  text-align: left;
+  max-width: 720px;
+  margin: 1rem auto;
+}
+.game-table .turn-banner {
+  font-weight: 600;
+}
+.game-table .open-melds-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0.75rem;
+}
+.game-table .claim-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.game-table .claim-btn {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+}
+.game-table .discard-counts {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1rem;
+}
+.game-table .hand-tiles {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.game-table .tile-btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.4rem;
+  cursor: pointer;
+}

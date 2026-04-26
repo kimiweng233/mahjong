@@ -1,0 +1,11 @@
+{
+  "name": "mahjong",
+  "private": true,
+  "description": "Online Hong Kong Mahjong",
+  "scripts": {
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm start --prefix server",
+    "build": "npm run build --prefix client",
+    "start": "npm start --prefix server"
+  }
+}

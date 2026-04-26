@@ -1,0 +1,18 @@
+---
+description: Mahjong claim types — project vocabulary (tripps, quads, straight)
+alwaysApply: true
+---
+
+# Claim terminology
+
+Use these names in code, comments, APIs, UI copy, and socket payloads—not classic English/Mahjong loanwords:
+
+| Use this | Do not use for claims |
+|----------|------------------------|
+| **tripps** | pong, pung |
+| **quads** | kong |
+| **straight** | chow |
+
+**Strings on the wire** (e.g. `claimOptionsBySeat`, future claim events): lowercase `tripps`, `quads`, `straight`. `win` stays `win` when added.
+
+Unrelated: WebSocket **ping/pong** and place names like “Hong Kong” are fine; this rule is only for **claim/meld** naming.
