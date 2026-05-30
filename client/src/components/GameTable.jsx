@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 
 /**
  * Draw / discard / claim (Phase 6.3: claim_tripps, claim_quads, claim_straight).
- * @param {{ gameSnapshot: object, myPlayerId: string, socket: import('socket.io-client').Socket | null }} props
+ * @param {{ gameSnapshot: object, myPlayerId: string, emitWithRtt: (event: string, payload?: object, callback?: (ack: object) => void) => void, getOneWayMs: () => number }} props
  */
-export default function GameTable({ gameSnapshot, myPlayerId, socket }) {
+export default function GameTable({ gameSnapshot, myPlayerId, emitWithRtt, getOneWayMs }) {
   const [actionError, setActionError] = useState(null);
   const [claimSecondsLeft, setClaimSecondsLeft] = useState(null);
 
   const round = gameSnapshot?.round;
   const phase = round?.phase;
   const claimDeadlineAt = round?.claimDeadlineAt;
+  const serverNow = round?.serverNow;
   const inClaim = phase === 'claim';
 
   useEffect(() => {
@@ -18,14 +19,18 @@ export default function GameTable({ gameSnapshot, myPlayerId, socket }) {
       setClaimSecondsLeft(null);
       return;
     }
+    const receivedAt = Date.now();
     const tick = () => {
-      const ms = Math.max(0, claimDeadlineAt - Date.now());
+      const oneWay = getOneWayMs();
+      const adjustedNow =
+        serverNow != null ? serverNow + oneWay + (Date.now() - receivedAt) : Date.now();
+      const ms = Math.max(0, claimDeadlineAt - adjustedNow);
       setClaimSecondsLeft(Math.ceil(ms / 1000));
     };
     tick();
     const id = setInterval(tick, 500);
     return () => clearInterval(id);
-  }, [inClaim, claimDeadlineAt]);
+  }, [inClaim, claimDeadlineAt, serverNow, getOneWayMs]);
 
   if (!round) return null;
 
@@ -38,7 +43,7 @@ export default function GameTable({ gameSnapshot, myPlayerId, socket }) {
 
   const handleDraw = () => {
     setActionError(null);
-    socket?.emit('draw', {}, (ack) => {
+    emitWithRtt('draw', {}, (ack) => {
       if (ack?.error) setActionError(ack.error);
     });
   };
@@ -46,28 +51,28 @@ export default function GameTable({ gameSnapshot, myPlayerId, socket }) {
   const handleDiscardTile = (tileId) => {
     if (!myTurnDiscard) return;
     setActionError(null);
-    socket?.emit('discard', { tileId }, (ack) => {
+    emitWithRtt('discard', { tileId }, (ack) => {
       if (ack?.error) setActionError(ack.error);
     });
   };
 
   const handleClaimTripps = () => {
     setActionError(null);
-    socket?.emit('claim_tripps', {}, (ack) => {
+    emitWithRtt('claim_tripps', {}, (ack) => {
       if (ack?.error) setActionError(ack.error);
     });
   };
 
   const handleClaimQuads = () => {
     setActionError(null);
-    socket?.emit('claim_quads', {}, (ack) => {
+    emitWithRtt('claim_quads', {}, (ack) => {
       if (ack?.error) setActionError(ack.error);
     });
   };
 
   const handleClaimStraight = (handTileIds) => {
     setActionError(null);
-    socket?.emit('claim_straight', { handTileIds }, (ack) => {
+    emitWithRtt('claim_straight', { handTileIds }, (ack) => {
       if (ack?.error) setActionError(ack.error);
     });
   };

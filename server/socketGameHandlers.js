@@ -215,6 +215,10 @@ function handleClaimStraight(io, socket, payload, callback) {
  * @param {import('socket.io').Socket} socket
  */
 function registerGameSocketHandlers(io, socket) {
+  socket.on('ping_rtt', (_payload, callback) => {
+    if (typeof callback === 'function') callback({});
+  });
+
   socket.on('start_game', (payload, callback) => {
     handleStartGame(io, socket, callback);
   });

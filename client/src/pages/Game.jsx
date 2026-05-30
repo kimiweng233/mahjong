@@ -15,8 +15,15 @@ export default function Game() {
   );
   const { roomId, playerId } = identity;
 
-  const { lobbyState, gameSnapshot, connected, error: socketError, socket } =
-    useSocket(roomId || null, playerId || null);
+  const {
+    lobbyState,
+    gameSnapshot,
+    connected,
+    error: socketError,
+    socket,
+    emitWithRtt,
+    getOneWayMs,
+  } = useSocket(roomId || null, playerId || null);
 
   useEffect(() => {
     if (!roomIdParam || !playerId) {
@@ -57,7 +64,12 @@ export default function Game() {
       {lobbyState?.state === 'playing' && (
         <>
           {gameSnapshot ? (
-            <GameTable gameSnapshot={gameSnapshot} myPlayerId={playerId} socket={socket} />
+            <GameTable
+              gameSnapshot={gameSnapshot}
+              myPlayerId={playerId}
+              emitWithRtt={emitWithRtt}
+              getOneWayMs={getOneWayMs}
+            />
           ) : (
             <>
               <p>

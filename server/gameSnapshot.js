@@ -65,6 +65,8 @@ function buildStateSnapshotForPlayer(room, viewerPlayerId) {
         round.nextPlayerAfterClaim !== undefined ? round.nextPlayerAfterClaim : null,
       claimDeadlineAt:
         round.claimDeadlineAt !== undefined ? round.claimDeadlineAt : null,
+      /** Epoch ms when this snapshot was built; client uses with claimDeadlineAt to correct clock skew. */
+      serverNow: Date.now(),
       claimOptionsBySeat,
       claimStraightPairs,
       openMelds: (round.openMelds ?? []).map((m) => ({
